@@ -140,11 +140,8 @@ def preprocess():
     test_label = test_label_preprocess[test_perm]
 
     # Feature selection
-    # Your code here.
     train_label = train_label[:,np.newaxis]
-    
-    
-    
+        
     full_data = np.array(np.vstack((train_data,validation_data,test_data)))
     #features = full_data.shape[1]
     #print(features)
@@ -160,24 +157,16 @@ def preprocess():
     full_data = full_data[:,~n]
    
     selected_features = list(set(range(0,784)) - set(n))
-    #print(selected_features)
     pickle.dump((selected_features),open('selected_features.pickle','wb'))
     selected_features = pickle.load(open('selected_features.pickle','rb'))
-    #print(selected_features)
-    
-    
         
     train_data = full_data[0:len(train_data),:] 
     validation_data = full_data[len(train_data):(len(train_data) + len(validation_data)) ,:]
     test_data = full_data[(len(train_data) + len(validation_data)) : (len(test_data) + len(validation_data) + len(train_data)),:]
 
     print('preprocess done')
-    #print(train_label)
 
     return train_data, train_label, validation_data, validation_label, test_data, test_label
-
-
-
 
 # In[308]:
 
@@ -308,17 +297,9 @@ def nnObjFunction(params, *args):
     error_output_hidden = (sig_Y - out)   #* y_new
     error_output_hidden_transpose = np.transpose(error_output_hidden)
     gradient_output_hidden = np.dot(error_output_hidden_transpose ,sig_Z)
-    
-
-    
-
-    #obj_grad = np.array([])
-     
-        
+    #obj_grad = np.array([])        
     return (obj_val,obj_grad)
     
-
-
 # In[310]:
 
 def nnPredict(w1,w2,data):
@@ -340,7 +321,6 @@ def nnPredict(w1,w2,data):
     % label: a column vector of predicted labels""" 
     
     labels = np.array([])
-    #Your code here
     n = data.shape[0]
     d = data.shape[1] # Goes to params, calls params, and gets the new Weights from nnObjectiveFunction and runs the Predict function
     
@@ -416,9 +396,6 @@ for i in lambdaval:
         #Reshape nnParams from 1D vector into w1 and w2 matrices
         w1 = params[0:n_hidden * (n_input + 1)].reshape( (n_hidden, (n_input + 1)))
         w2 = params[(n_hidden * (n_input + 1)):].reshape((n_class, (n_hidden + 1)))
-
-
-        #Test the computed parameters
 
         predicted_label = nnPredict(w1,w2,train_data)
         #print("lambda",i)
